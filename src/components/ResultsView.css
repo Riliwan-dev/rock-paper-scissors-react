@@ -1,0 +1,90 @@
+/* src/components/ResultsView.css */
+.results-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  margin-top: 5rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.choice-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+.choice-label {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: white;
+  z-index: 2;
+}
+
+/* Reusing the button size, but bigger for the results stage */
+.results-container .choice-btn {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  cursor: default;
+}
+
+.results-container .icon-wrapper {
+  width: 160px;
+  height: 160px;
+}
+
+.results-container .icon-wrapper img {
+  width: 80px;
+}
+
+.placeholder-circle {
+  width: 180px;
+  height: 180px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.status-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.result-text {
+  font-size: 3.5rem;
+  white-space: nowrap;
+}
+
+.play-again-btn {
+  background: white;
+  color: var(--dark-text);
+  border: none;
+  padding: 0.8rem 3rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 2px;
+  width: 100%;
+}
+
+.play-again-btn:hover {
+  color: #db2e4d;
+}
+
+/* Winner Glow (Concentric circles) */
+.winner-glow::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: -1;
+  box-shadow: 0 0 0 40px rgba(255, 255, 255, 0.05),
+              0 0 0 80px rgba(255, 255, 255, 0.03),
+              0 0 0 130px rgba(255, 255, 255, 0.02);
+}

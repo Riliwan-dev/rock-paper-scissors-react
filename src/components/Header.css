@@ -1,0 +1,44 @@
+/* src/Header.css */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  border: 3px solid var(--header-outline);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.title-area h1 {
+  font-size: 1.5rem;
+  line-height: 0.85;
+  color: white;
+  text-align: left;
+}
+
+.score-box {
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  min-width: 120px;
+}
+
+.score-label {
+  color: var(--score-text);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.score-number {
+  color: var(--dark-text);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+}

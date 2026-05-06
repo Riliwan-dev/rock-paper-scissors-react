@@ -1,122 +1,92 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+// src/App.jsx
+import { useState, useEffect } from 'react';
+import './App.css';
+import Header from './components/Header';
+import GameArea from './components/GameArea';
+import ResultsView from './components/ResultsView';
+
+// The rules logic for the Bonus (5-option) version
+const MAP_RULES = {
+  scissors: ['paper', 'lizard'],
+  paper: ['rock', 'spock'],
+  rock: ['scissors', 'lizard'],
+  lizard: ['spock', 'paper'],
+  spock: ['scissors', 'rock'],
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  // 1. Persist score in localStorage
+  const [score, setScore] = useState(() => {
+    const savedScore = localStorage.getItem('rps-score');
+    return savedScore ? parseInt(savedScore) : 0;
+  });
+
+  const [userChoice, setUserChoice] = useState(null);
+  const [houseChoice, setHouseChoice] = useState(null);
+  const [result, setResult] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem('rps-score', score);
+  }, [score]);
+
+  // 2. Handle the gameplay flow
+  const handleSelect = (choice) => {
+    setUserChoice(choice);
+    
+    // Pick a random hand for the computer
+    const options = Object.keys(MAP_RULES);
+    const randomChoice = options[Math.floor(Math.random() * options.length)];
+    
+    // Small delay to build suspense
+    setTimeout(() => {
+      setHouseChoice(randomChoice);
+      determineWinner(choice, randomChoice);
+    }, 1000);
+  };
+
+  // 3. Logic to update score and set the message
+  const determineWinner = (user, house) => {
+    if (user === house) {
+      setResult("DRAW");
+    } else if (MAP_RULES[user].includes(house)) {
+      setResult("YOU WIN");
+      setScore(prev => prev + 1);
+    } else {
+      setResult("YOU LOSE");
+      setScore(prev => (prev > 0 ? prev - 1 : 0));
+    }
+  };
+
+  const resetGame = () => {
+    setUserChoice(null);
+    setHouseChoice(null);
+    setResult("");
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <main className="app-container">
+      <Header score={score} />
+      
+      {/* 
+          SWITCHING LOGIC:
+          Show the Pentagon (GameArea) if no choice is made.
+          Show the Outcome (ResultsView) once a choice is clicked.
+      */}
+      {!userChoice ? (
+        <GameArea onSelect={handleSelect} />
+      ) : (
+        <ResultsView 
+          userChoice={userChoice} 
+          houseChoice={houseChoice} 
+          result={result} 
+          onReset={resetGame} 
+        />
+      )}
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* This button will be linked to the Modal in Step 6 */}
+      <button className="rules-btn">Rules</button>
+    </main>
+  );
 }
 
-export default App
+export default App;

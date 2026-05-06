@@ -1,0 +1,78 @@
+/* src/components/GameArea.css */
+
+.game-area-container {
+  margin-top: 5rem;
+  width: 100%;
+  max-width: 450px;
+  height: 450px; /* Essential: This provides the height needed for absolute positioning */
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* Base style for the outer circle/button */
+.choice-btn {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Thick inner shadow creates the ring effect */
+  box-shadow: inset 0 -6px rgba(0, 0, 0, 0.2);
+}
+
+/* Inner white circle containing the icon */
+.icon-wrapper {
+  background: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.icon-wrapper img {
+  width: 40px; /* Size the SVG inside the circle */
+}
+
+/* --- Specific Position and Color for each button (Pentagon shape) --- */
+
+/* Top Center */
+.scissors { 
+  top: -10%; 
+  background: var(--scissors-gradient); 
+}
+
+/* Top Left */
+.spock { 
+  top: 25%; 
+  left: -10%; 
+  background: var(--spock-gradient); 
+}
+
+/* Top Right */
+.paper { 
+  top: 25%; 
+  right: -10%; 
+  background: var(--paper-gradient); 
+}
+
+/* Bottom Left */
+.lizard { 
+  bottom: 0; 
+  left: 5%; 
+  background: var(--lizard-gradient); 
+}
+
+/* Bottom Right */
+.rock { 
+  bottom: 0; 
+  right: 5%; 
+  background: var(--rock-gradient); 
+}

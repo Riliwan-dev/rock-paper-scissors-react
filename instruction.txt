@@ -1,0 +1,5 @@
+edit index.css 
+edit App.jsx
+create a component folder
+add header.jsx and header.css to the folder and code to it
+add usestate and header import to yout App.jsx
